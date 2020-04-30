@@ -7,9 +7,13 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 
 function Bulletinpage() {
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -18,12 +22,14 @@ function Bulletinpage() {
           Bulletin Board
         </Typography>
       </header>
-      <Container maxWidth="sm">
+
+      <Container maxWidth="Md">
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
           Welcom to the Bulletin Board! <br />
           This is where all the updates for the quarantine center are posted.
           Make sure to check back frequently for the latest news. 
         </Typography>
+
         <Grid container spacing={2} justify="center">
           <Grid item>
             <Button variant="contained" color="secondary">
@@ -36,6 +42,64 @@ function Bulletinpage() {
             </Button>
           </Grid>
         </Grid>
+
+        <List width="100%">
+          <ListItem button alignItems="flex-chart">
+            <ListItemText
+              primary="We are out of Toilet Paper!"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    display="inline"
+                    color="textPrimary"
+                  >
+                    Ali Connors
+                  </Typography>
+                  {" — Please ask your loved ones to bring in more toilet paper"}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <ListItem button alignItems="flex-chart">
+            <ListItemText
+              primary="New protocols for visiting family members"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    display="inline"
+                    color="textPrimary"
+                  >
+                    Admin Team
+                  </Typography>
+                  {" — From now on family members are required to ..."}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+          <ListItem button alignItems="flex-chart">
+            <ListItemText
+              primary="Reduction in new cases globally"
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    display="inline"
+                    color="textPrimary"
+                  >
+                    Paul Robertson
+                  </Typography>
+                  {" — Global pandemic levels have been decreasing over the ...."}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        </List>
+
       </Container>
     </div>
   );
