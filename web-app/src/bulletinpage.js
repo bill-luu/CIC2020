@@ -10,7 +10,9 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 
 function Bulletinpage() {
   
@@ -32,14 +34,24 @@ function Bulletinpage() {
 
         <Grid container spacing={2} justify="center">
           <Grid item>
-            <Button variant="contained" color="secondary">
+            <Button size="large" variant="contained" color="secondary">
               Call Nurse
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary">
+            <Button size ="large" variant="contained" color="primary">
               Chat Page
             </Button>
+          </Grid>
+          <Grid item>
+            <Fab color="primary" aria-label="add">
+              <AddIcon />
+            </Fab>
+          </Grid>
+          <Grid item>
+            <Fab color="secondary" aria-label="edit">
+              <EditIcon />
+            </Fab>
           </Grid>
         </Grid>
 
