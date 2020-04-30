@@ -1,6 +1,5 @@
 import React from 'react';
 import './MessagesComponent.css';
-// import { subscribeToUsersList } from './api'
 
 function Message(props) {
 
@@ -37,9 +36,6 @@ class MessagesComponent extends React.Component {
     }
 
     componentDidMount() {
-        // subscribeToMessageList((err, messages) => {
-        //     this.setState({ messages: messages }, () => { this.scrollToBottom() })
-        // })
     }
 
     scrollToBottom = () => {

@@ -3,8 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-// import Alert from '@material-ui/lab/Alert';
-// import Collapse from '@material-ui/core/Collapse';
 
 import MessagesComponent from './MessagesComponent'
 import UsersListComponent from './UsersListComponent'
@@ -41,28 +39,8 @@ function Chatpage() {
                     color: 'white'
                   }
                 }}
-                // value={"Sample message"}
-                // onKeyPress={(evt) => this.onKeyPress(evt)}
-                // onChange={(evt) => this.onMessageChange(evt)}
               />
             </div>
-            {/* <div className="alerts">
-              <Collapse in={this.state.showNameChangeFailed}>
-                <Alert severity="error" onClose= {() => this.handleNameChangeFailedAlertClose()}>
-                  Name Change Failed: {this.state.nameChangeFailedReason}
-                </Alert>
-              </Collapse>
-              <Collapse in={this.state.showColorChangeFailed}>
-                <Alert severity="error" onClose={() => this.handleColorChangeFailedAlertClose()}>
-                  Color Change Failed: Command Format: /nickcolor RRGGBB
-                </Alert>
-              </Collapse>
-              <Collapse in={this.state.invalidSlashCommand}>
-                <Alert severity="error" onClose={() => this.handleInvalidSlashCommandAlertClose()}>
-                  Invalid Slash Command
-                </Alert>
-              </Collapse>
-            </div> */}
           </div>
         </div>
       </body>

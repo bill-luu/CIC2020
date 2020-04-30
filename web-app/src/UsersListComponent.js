@@ -1,6 +1,5 @@
 import React from 'react';
 import './UsersListComponent.css';
-// import { subscribeToUsersList } from './api'
 
 function User(props) {
     return (
@@ -19,9 +18,6 @@ class UsersListComponent extends React.Component {
     }
 
     componentDidMount() {
-        // subscribeToUsersList((err, users) => {
-        //     this.setState({ users: users })
-        // })
     }
 
     render() {
