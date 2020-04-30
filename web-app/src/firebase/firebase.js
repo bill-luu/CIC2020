@@ -7,7 +7,6 @@ const config = {
     apiKey: firebaseApiKey,
     authDomain: "coronabulletin-486ed.firebaseapp.com",
     databaseURL: "https://coronabulletin-486ed.firebaseio.com",
-    projectId: "coronabulletin-486ed",
     storageBucket: "coronabulletin-486ed.appspot.com",
     messagingSenderId: "455536007872",
     appId: "1:455536007872:web:ca617418a85bbbff02ab25",
