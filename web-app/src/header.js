@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 import logo from './logo.svg';
 import firebase from 'firebase/app';
+import Button from '@material-ui/core/Button';
 
 const Header = () => {
 
@@ -27,9 +28,12 @@ const Header = () => {
             {
                 isSignedIn && 
                 <Link to='/'>
-                    <button onClick={() => signOut()}>
+                    <Button variant="contained"
+                        className="App-header-button"
+                        onClick={() => signOut()}
+                        color="secondary">
                         Sign Out
-                    </button>
+                    </Button>
                 </Link>
             }
         </div>

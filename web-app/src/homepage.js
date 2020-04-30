@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './homepage.css'
 import { Redirect } from 'react-router-dom'
 import firebase from 'firebase/app';
 import 'firebase/auth'
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function EnterFacilityCodeComponent() {
   const [code, setCode] = useState("")
@@ -32,12 +36,17 @@ function EnterFacilityCodeComponent() {
   }
 
   return (
-    <div>
-      Enter Facility Code
-        <input type="text"
-            value={code}
-            onChange={(evt) => setCode(evt.target.value.trim())}/>
-        <button onClick={() => submitCode()}>Submit</button>
+    <div className="homepage-body">
+        <div className="facility-container">
+            <span>Enter Facility Code</span>
+            <TextField
+                value={code}
+                onChange={(evt) => setCode(evt.target.value.trim())}/>
+            <Button 
+                className="homepage-button"
+                onClick={() => submitCode()} 
+                variant="outlined">Submit</Button>
+        </div>
     </div>
   )
 }
@@ -53,7 +62,6 @@ function Homepage() {
         let unsuscribe = firebase.auth().onAuthStateChanged((user) => {
             if(mounted) {
                 if (!user) {
-                    console.log(user)
                     setRedirect("/signin")
                     setShowFacilityPrompt(false)
                     setLoading(false)
@@ -79,8 +87,8 @@ function Homepage() {
 
   if(loading) {
     return (
-      <div>
-        Loading...
+      <div className="homepage-spinner">
+            <CircularProgress />
       </div>
     )
   } else if(showFacilityPrompt) {
