@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AuthComponent from './authComponent';
 import { Link } from 'react-router-dom';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { FirebaseContext } from './firebase';
@@ -23,6 +24,7 @@ const TestComponent= () => {
           {doc.data().test}
         </span>
       )))}
+      <AuthComponent/>
     </div>
   )
 }
