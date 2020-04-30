@@ -32,11 +32,13 @@ function Homepage() {
     <div className="App">
       <header className="App-header">
         <Link to='/'><img src={logo} className="App-logo" alt="logo"/></Link>
-        <p>
-          HOMEPAGE
-        </p>
-      <TestComponent/>
       </header>
+      <body>
+        <div className="container">
+
+        <TestComponent/>
+        </div>
+      </body>
     </div>
   );
 }
