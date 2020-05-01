@@ -2,6 +2,7 @@ import React from 'react';
 import './MessagesComponent.css';
 import moment from 'moment';
 import firebase from 'firebase/app';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 function Message(props) {
 
@@ -32,7 +33,8 @@ class MessagesComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            messages: []
+            messages: [],
+            isLoading: true
         }
         this.messagesEndRef = React.createRef();
     }
@@ -57,7 +59,7 @@ class MessagesComponent extends React.Component {
                     if(a.timestamp > b.timestamp) return 1
                     return 0
                 })
-                this.setState({messages: messages}, ()=> {this.scrollToBottom()})
+                this.setState({ messages: messages, isLoading: false}, ()=> {this.scrollToBottom()})
             })
         }
     }
@@ -69,10 +71,24 @@ class MessagesComponent extends React.Component {
     }
 
     scrollToBottom = () => {
-        this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        if(!this.state.isLoading) {
+            this.messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
     }
 
     render() {
+        if(this.state.isLoading) {
+            return (
+                <div className="messagesComponent">
+                    <div style={{paddingLeft: "5px"}}>{this.props.chatName}</div>
+                    <div className="loading">
+                        <div className="progress">
+                        <CircularProgress />
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="messagesComponent">
                 <span style={{paddingLeft: "5px"}}>{this.props.chatName}</span>
