@@ -69,7 +69,6 @@ function Homepage() {
                     let userDoc = firebase.firestore().collection("users").doc(user.uid)
                     userDoc.get().then((doc) => {
                         if (!doc.exists || doc.data().facilityID === null) {
-                            console.log(doc.exists)
                             setShowFacilityPrompt(true)
                         } else {
                             setRedirect("/bulletin")
