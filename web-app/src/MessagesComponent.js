@@ -1,5 +1,7 @@
 import React from 'react';
 import './MessagesComponent.css';
+import moment from 'moment';
+import firebase from 'firebase/app';
 
 function Message(props) {
 
@@ -17,7 +19,7 @@ function Message(props) {
             <span>
                 {props.timestamp + " "}
                 <span style={messageStyle}>
-                    <span style={{color: props.color}}>
+                    <span>
                         {props.username}:
                     </span> {props.message}
                 </span>
@@ -36,6 +38,34 @@ class MessagesComponent extends React.Component {
     }
 
     componentDidMount() {
+        if(this.props.chatID) {
+            let chatRef = firebase.firestore().collection("messages").where("chatID", "==", this.props.chatID)
+                // .orderBy("timestamp")
+            this.unsubscribe = chatRef.onSnapshot((querySnapshot) => {
+                let messages = [];
+                querySnapshot.forEach((doc) => {
+                    messages.push({
+                        timestamp: doc.data().timestamp,
+                        username: doc.data().username,
+                        message: doc.data().content,
+                        userID: doc.data().userID,
+                    })
+                })
+
+                messages.sort((a, b) => {
+                    if(a.timestamp < b.timestamp) return -1
+                    if(a.timestamp > b.timestamp) return 1
+                    return 0
+                })
+                this.setState({messages: messages}, ()=> {this.scrollToBottom()})
+            })
+        }
+    }
+
+    componentWillUnmount() {
+        if(this.unsubscribe) {
+            this.unsubscribe()
+        }
     }
 
     scrollToBottom = () => {
@@ -45,40 +75,22 @@ class MessagesComponent extends React.Component {
     render() {
         return (
             <div className="messagesComponent">
-                <span style={{paddingLeft: "5px"}}>Welcome, {this.props.username}!</span>
+                <span style={{paddingLeft: "5px"}}>{this.props.chatName}</span>
                 <div className="messages overflow">
                     <div className="overflow">
-                        {/* {this.state.messages.map((message, index) => {
+                        {this.state.messages.map((message, index) => {
+                            const displaytime = moment(message.timestamp).format("h:mm A")
                             return (
                                 <div key={index} >
                                     <Message
-                                            timestamp={message.timestamp}
+                                        timestamp={displaytime}
                                             username={message.username}
-                                            color={message.color}
                                             message={message.message}
                                             userID={message.userID}
                                             clientID={this.props.clientID}/>
                                 </div>
                             )
-                        })} */}
-                        <div key={0} >
-                            <Message
-                                timestamp={"10:24"}
-                                username={"johnsmith"}
-                                color={"red"}
-                                message={"How y'all doing today?"}
-                                userID={3}
-                                clientID={2}/>
-                        </div>
-                        <div key={0} >
-                            <Message
-                                timestamp={"10:26"}
-                                username={"someguy"}
-                                color={"green"}
-                                message={"Great thanks!"}
-                                userID={3}
-                                clientID={2}/>
-                        </div>
+                        })}
                         <div ref={this.messagesEndRef}/>
                     </div>
                 </div>
