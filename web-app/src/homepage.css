@@ -1,0 +1,28 @@
+.homepage-body {
+    padding-left: 15%;
+    padding-right: 15%;
+    padding-top: 3em;
+    display: flex;
+    flex-direction: column;
+}
+
+.facility-container {
+    margin: auto;
+    text-align: center;
+    width: 50%;
+    font-size: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.homepage-button {
+    width: 100%;
+}
+
+.homepage-spinner {
+    margin:auto;
+    width: 50%;
+    text-align: center;
+    padding-top: 3em;
+}
