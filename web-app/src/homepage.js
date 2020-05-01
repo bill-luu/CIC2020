@@ -1,48 +1,105 @@
-import React, { useContext } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import AuthComponent from './authComponent';
-import { Link } from 'react-router-dom';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { FirebaseContext } from './firebase';
+import './homepage.css'
+import { Redirect } from 'react-router-dom'
+import firebase from 'firebase/app';
+import 'firebase/auth'
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const TestComponent= () => {
-  const firebase = useContext(FirebaseContext)
-  const [value, loading, error] = useCollection(
-      firebase.Messages(),
-    );
-  const testPost = () => {
-   firebase.Messages().add({test: "test"})
+function EnterFacilityCodeComponent() {
+  const [code, setCode] = useState("")
+  const [redirect, setRedirect] = useState(false)
+
+  const submitCode = () => {
+    firebase.firestore().collection("facilities").doc(code).get().then((doc) => {
+      if(doc.exists) {
+        let user = firebase.auth().currentUser;
+        let userDoc = firebase.firestore().collection("users").doc(user.uid)
+        
+        userDoc.update({
+          facilityID: code
+        }).then(() => {
+          setRedirect(true)
+        })
+      } else {
+        console.log("Facility doesn't exist")
+      }
+    })
+  }
+
+  if(redirect) {
+    return (
+      <Redirect to="/bulletin" />
+    )
   }
 
   return (
-    <div>
-      Hello
-      <button onClick={testPost}>test</button>
-      {value && ( value.docs.map(doc => (
-        <span>
-          {doc.data().test}
-        </span>
-      )))}
-      <AuthComponent/>
+    <div className="homepage-body">
+        <div className="facility-container">
+            <span>Enter Facility Code</span>
+            <TextField
+                value={code}
+                onChange={(evt) => setCode(evt.target.value.trim())}/>
+            <Button 
+                className="homepage-button"
+                onClick={() => submitCode()} 
+                variant="outlined">Submit</Button>
+        </div>
     </div>
   )
 }
 
 function Homepage() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Link to='/'><img src={logo} className="App-logo" alt="logo"/></Link>
-      </header>
-      <body>
-        <div className="container">
+  const [redirect, setRedirect] = useState("/bulletin");
+  const [loading, setLoading] = useState(true)
+  const [showFacilityPrompt, setShowFacilityPrompt] = useState(false) 
+  
+  useEffect(() => {
+        // Prevent states being set when component is unmounted (in return function)
+        let mounted = true
+        let unsuscribe = firebase.auth().onAuthStateChanged((user) => {
+            if(mounted) {
+                if (!user) {
+                    setRedirect("/signin")
+                    setShowFacilityPrompt(false)
+                    setLoading(false)
+                } else {
+                    let userDoc = firebase.firestore().collection("users").doc(user.uid)
+                    userDoc.get().then((doc) => {
+                        if (!doc.exists || doc.data().facilityID === null) {
+                            console.log(doc.exists)
+                            setShowFacilityPrompt(true)
+                        } else {
+                            setRedirect("/bulletin")
+                        }
+                        setLoading(false)
+                    })
+                }
+            }
+        })
+    return () => {
+        unsuscribe()
+        mounted = false
+    }
+  })
 
-        <TestComponent/>
-        </div>
-      </body>
+  if(loading) {
+    return (
+      <div className="homepage-spinner">
+            <CircularProgress />
+      </div>
+    )
+  } else if(showFacilityPrompt) {
+    return (<EnterFacilityCodeComponent/>)
+  }
+
+  return (
+    <div>
+      <Redirect to={redirect} />
     </div>
-  );
+  )
 }
 
 export default Homepage;

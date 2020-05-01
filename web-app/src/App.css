@@ -17,11 +17,15 @@
   background-color: #282c34;
   min-height: 10vh;
   display: flex;
-  flex-direction: column;
   text-align: left;
-  justify-content: center;
+  justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header-button {
+  margin: auto;
+  height: 45px;
 }
 
 .container {
@@ -46,4 +50,42 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.chatbox {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 80% 20%;
+  grid-column-gap: 20px;
+  grid-row-gap: 10px;
+
+  height: 80%;
+  width: 80%;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.messageBox {
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 1;
+  outline-style: dotted;
+}
+
+.userList {
+  grid-column: 3 / span 1;
+  grid-row: 1 / span 1;
+}
+
+.userInput {
+  grid-row: 2 / span 1;
+  grid-column: 1 / span 3;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.alerts {
+  grid-row: 3 / span 1;
+  grid-column: 1 / span 3;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
