@@ -23,8 +23,11 @@ const Header = () => {
 
     return (
         <div className="App-header">
-            <Link to='/'><img src={logo} className="App-logo" alt="logo" /></Link>
-            
+            <div>
+                <Link to='/'><img src={logo} className="App-logo" alt="logo" /></Link>
+                {isSignedIn && <Link to='/chat'>Messages</Link>}
+            </div>
+
             {
                 isSignedIn && 
                 <Link to='/'>
