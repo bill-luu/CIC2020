@@ -39,7 +39,7 @@ function Bulletinpage() {
     <div className="App">
       <Container maxWidth="Md">
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          Welcom to the Bulletin Board! <br />
+          Welcome to the Bulletin Board! <br />
           This is where all the updates for the quarantine center are posted.
           Make sure to check back frequently for the latest news. 
         </Typography>
