@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import './bulletinpage.scss';
 import Container from '@material-ui/core/Container';
@@ -8,9 +8,6 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -18,11 +15,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 function Bulletinpage() {
   
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -30,16 +29,52 @@ function Bulletinpage() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  
   const handleNewEntry = () =>{
-
+    
   };
+  
+  const [facilityName, setFacilityName] = useState("")
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        firebase.firestore().collection("users").doc(user.uid).get().then((userDoc) => {
+          firebase.firestore().collection("facilities").doc(userDoc.data().facilityID).get().then((doc) => {
+            if(doc.exists) {
+              setFacilityName(doc.data().Name)
+            }
+          })
+        })
+      }
+    });
+
+    return (() => {
+      unsubscribe()
+    })
+  }, [])
+
+  const [bulletinPosts, setBulletinPosts] = useState([])
+  useEffect(() => {
+    firebase.firestore().collection("bulletinposts").get().then((querySnapshot) => {
+      let posts = [];
+      querySnapshot.forEach((doc) => {
+        posts.push({
+          // timestamp: doc.data().timestamp,
+          author: doc.data().author,
+          content: doc.data().content,
+          title: doc.data().title,
+        })
+      })
+
+      setBulletinPosts(posts)
+    })
+  }, [])
 
   return (
     <div className="App">
-      <Container maxWidth="Md">
+      <Container maxWidth="md">
         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-          Welcome to the Bulletin Board! <br />
+          Welcome to {facilityName} <br />
           This is where all the updates for the quarantine center are posted.
           Make sure to check back frequently for the latest news. 
         </Typography>
@@ -50,12 +85,12 @@ function Bulletinpage() {
               Call Nurse
             </Button>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Button size ="large" variant="contained" color="primary">
               Chat Page
             </Button>
-          </Grid>
-          <Grid item>
+          </Grid> */}
+          {/* <Grid item>
             <IconButton aria-label="add" onClick={handleClickOpen}>
               <AddIcon />
             </IconButton>
@@ -64,66 +99,33 @@ function Bulletinpage() {
             <IconButton aria-label="edit">
               <EditIcon />
             </IconButton>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <List width="100%">
-          <ListItem button alignItems="flex-chart">
-            <ListItemText
-              primary="We are out of Toilet Paper!"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    display="inline"
-                    color="textPrimary"
-                  >
-                    Ali Connors
-                  </Typography>
-                  {" — Please ask your loved ones to bring in more toilet paper"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-
-          <ListItem button alignItems="flex-chart">
-            <ListItemText
-              primary="New protocols for visiting family members"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    display="inline"
-                    color="textPrimary"
-                  >
-                    Admin Team
-                  </Typography>
-                  {" — From now on family members are required to ..."}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-
-          <ListItem button alignItems="flex-chart">
-            <ListItemText
-              primary="Reduction in new cases globally"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    display="inline"
-                    color="textPrimary"
-                  >
-                    Paul Robertson
-                  </Typography>
-                  {" — Global pandemic levels have been decreasing over the ...."}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
+          {bulletinPosts.map((post, index) => {
+            // const displaytime = moment(post.timestamp).format("h:mm A")
+            return (
+            <ListItem button alignItems="flex-start" key={"post" + index}>
+              <ListItemText
+                primary={post.title}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      display="inline"
+                      color="textPrimary"
+                    >
+                      {post.author}
+                    </Typography>
+                    {" — " + post.content}
+                  </React.Fragment>
+                }
+              />
+              </ListItem>
+            )
+          })}
         </List>
 
       </Container>

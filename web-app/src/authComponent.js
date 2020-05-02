@@ -8,13 +8,11 @@ const AuthComponent = () => {
     const [redirect, setRedirect] = useState(false)
     const addUserAndRedirect = async (authResult) => {
             // Add user to database
-            console.log("adding to db")
             await firebase.firestore().collection("users").doc(authResult.user.uid).set({
                 displayName: authResult.user.displayName,
                 facilityID: null
             })
             setRedirect(true)
-            console.log("added to db")
     }
 
     // Configure FirebaseUI.
