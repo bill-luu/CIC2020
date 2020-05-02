@@ -23,22 +23,26 @@ const Header = () => {
 
     return (
         <div className="App-header">
-            <div>
-                <Link to='/'><img src={logo} className="App-logo" alt="logo" /></Link>
-                {isSignedIn && <Link to='/chat'>Messages</Link>}
-            </div>
-
-            {
-                isSignedIn && 
-                <Link to='/'>
+            <Link to='/' className="link">
+                    SafeDistance
+            </Link>
+            {isSignedIn && <div> 
+                <Link
+                    to='/chat'>
                     <Button variant="contained"
-                        className="App-header-button"
+                        color="primary">
+                        Messages
+                    </Button>
+                </Link>
+                <Link to='/'
+                    className="App-header-button">
+                    <Button variant="contained"
                         onClick={() => signOut()}
                         color="secondary">
                         Sign Out
                     </Button>
                 </Link>
-            }
+            </div>}
         </div>
     )
 }

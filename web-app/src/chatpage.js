@@ -102,6 +102,11 @@ function Chatpage() {
                     color: 'white'
                   }
                 }}
+              InputProps={{
+                style: {
+                  color: 'white'
+                }
+              }}
               />
             </div>
           </div>

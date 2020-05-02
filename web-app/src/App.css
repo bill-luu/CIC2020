@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 45px;
+  height: 10vh;
   pointer-events: none;
 }
 
@@ -15,17 +15,18 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 10vh;
   display: flex;
-  text-align: left;
   justify-content: space-between;
   font-size: calc(10px + 2vmin);
   color: white;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .App-header-button {
-  margin: auto;
-  height: 45px;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-decoration: none;
 }
 
 .container {
@@ -89,4 +90,23 @@
   grid-column: 1 / span 3;
   margin-left: 1rem;
   margin-right: 1rem;
+}
+
+.link {
+  color: white;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+  font-size: 0.875rem;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.signinContainer {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size:
 }
